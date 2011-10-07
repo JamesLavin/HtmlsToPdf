@@ -4,10 +4,6 @@ require 'pdfkit'
 require 'uri'
 include URI
 
-PDFKit.configure do |config|
-  config.wkhtmltopdf = '/usr/bin/wkhtmltopdf'
-end
-
 class HtmlsToPdf
 
   attr_reader :hfarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files
