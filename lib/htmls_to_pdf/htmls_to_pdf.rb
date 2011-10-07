@@ -6,9 +6,10 @@ include URI
 
 class HtmlsToPdf
 
-  attr_reader :hfarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files
+  attr_reader :htmlarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files
 
-  TMP_FILE_PREFIX = 'tmp_html_file_'
+  TMP_HTML_PREFIX = 'tmp_html_file_'
+  TMP_PDF_PREFIX = 'tmp_pdf_file_'
 
   def initialize(in_config = {})
     config = {
@@ -20,7 +21,7 @@ class HtmlsToPdf
     @savename = config[:savename]
     exit_if_pdf_exists
     @urls = clean_urls(config[:urls])
-    @hfarray = get_hfarray
+    #@htmlarray = get_htmlarray
     @pdfarray = create_pdfarray
     @cssarray = config[:css]
     @remove_temp_files = config[:remove_temp_files]
@@ -32,13 +33,13 @@ class HtmlsToPdf
   #  @savename = savename
   #  exit_if_pdf_exists
   #  @urls = clean_urls(urls_array)
-  #  @hfarray = get_hfarray
+  #  @htmlarray = get_htmlarray
   #  @pdfarray = create_pdfarray
   #  @cssarray = css_array
   #  @remove_temp_files = remove_temp_files
   #end
 
-  def get_hfarray
+  def get_htmlarray
     everything_after_last_slash(@urls)
   end
 
@@ -64,10 +65,11 @@ class HtmlsToPdf
   end
 
   def create_pdfarray
-    html_extension = /\.html?$/
-    @hfarray.map do |html_file|
-      html_file.match(html_extension) ? html_file.sub(html_extension,'.pdf') : html_file + '.pdf' 
+    outarray = []
+    (0...@urls.length).each do |idx|
+      outarray << TMP_PDF_PREFIX + idx.to_s
     end
+    outarray
   end
 
   def exit_if_pdf_exists
@@ -95,11 +97,13 @@ class HtmlsToPdf
 
   def download_html_files
     existing_files = Dir.entries(".")
+    @htmlarray = []
     @urls.each_with_index do |url,idx|
-      savename = TMP_FILE_PREFIX + idx.to_s
+      savename = TMP_HTML_PREFIX + idx.to_s
       unless existing_files.include?(savename)
         `wget #{url} -O #{savename}`
       end
+      @htmlarray << savename
     end
   end
 
@@ -111,7 +115,7 @@ class HtmlsToPdf
   end
 
   def generate_pdfs
-    @hfarray.each_with_index { |html_file,i| html_to_pdf(TMP_FILE_PREFIX + i.to_s,@pdfarray[i]) }
+    @urls.each_with_index { |url,i| html_to_pdf(TMP_HTML_PREFIX + i.to_s,@pdfarray[i]) }
   end
 
   def html_to_pdf(html_file,pdf_file)
@@ -135,7 +139,7 @@ class HtmlsToPdf
 
   def delete_temp_files
     @pdfarray.each { |pdffile| File.delete(pdffile) }
-    @hfarray.each { |htmlfile| File.delete(htmlfile) }
+    @htmlarray.each { |htmlfile| File.delete(htmlfile) }
     @cssarray.each { |cssfile| File.delete(File.basename(cssfile)) }
   end
 
