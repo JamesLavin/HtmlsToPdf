@@ -12,5 +12,6 @@ end
 config[:savedir] = '~/Tech/Javascript/COFFEESCRIPT/BACKBONE.JS'
 config[:savename] = 'CoffeeScript_Meet_Backbone.js.pdf'
 config[:css] = ['http://adamjspooner.github.com/coffeescript-meet-backbonejs/05/docs/docco.css']
+config[:options] = {:page_size => 'Letter', :orientation => 'Landscape'}
 
 HtmlsToPdf.new(config).create_pdf

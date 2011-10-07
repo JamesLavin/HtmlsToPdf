@@ -8,16 +8,21 @@ class HtmlsToPdf
 
   attr_reader :hfarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files
 
-  def initialize(config = {})
+  def initialize(in_config = {})
+    config = {
+      :css => [],
+      :remove_temp_files => true,
+      :options => {}
+    }.merge(in_config)
     set_dir(config[:savedir])
     @savename = config[:savename]
     exit_if_pdf_exists
     @urls = clean_urls(config[:urls])
     @hfarray = get_hfarray
     @pdfarray = create_pdfarray
-    @cssarray = config[:css] || []
-    @remove_temp_files = config[:remove_temp_files] || true
-    @options = config[:options] || {}
+    @cssarray = config[:css]
+    @remove_temp_files = config[:remove_temp_files]
+    @options = config[:options]
   end
 
   #def initialize(savedir, savename, urls_array, css_array = [], remove_temp_files = true)
@@ -36,6 +41,11 @@ class HtmlsToPdf
   end
 
   def clean_urls(urls)
+    if !urls.is_a?(Array)
+      urls = Array(urls) if Array(urls).is_a?(Array)
+    else
+      raise "config[:urls] must be an array" unless urls.is_a?(Array)
+    end
     remove_trailing_url_slashes(urls)
   end
 
@@ -107,7 +117,8 @@ class HtmlsToPdf
     html = nil
     unless Dir.entries(".").include?(pdf_file)
       File.open(html_file, 'r') { |inf| html = inf.read }
-      kit = PDFKit.new(html, :page_size => 'Letter', :orientation => 'Landscape')
+      #kit = PDFKit.new(html, :page_size => 'Letter', :orientation => 'Landscape')
+      kit = PDFKit.new(html, @options)
       @cssarray.each { |cssfile| kit.stylesheets << File.basename(cssfile) }
       kit.to_file(pdf_file)
     end
