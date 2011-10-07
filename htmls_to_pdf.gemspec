@@ -3,7 +3,7 @@ require 'htmls_to_pdf/version'
 
 Gem::Specification.new do |s|
   s.name            = 'htmls_to_pdf'
-  s.version         = HtmlToPdf::VERSION
+  s.version         = HtmlsToPdf::VERSION
   s.platform        = Gem::Platform::RUBY
   s.authors         = ['James Lavin']
   s.email           = ['htmls_to_pdf@futureresearch.com']
