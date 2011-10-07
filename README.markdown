@@ -73,30 +73,30 @@ Annotated version of /examples/get_rubygems_user_guide.rb:
 
 Annotated version of /examples/get_coffeescript_meet_backbone.rb:
 
-  require 'rubygems'
-  require 'htmls_to_pdf'
+    require 'rubygems'
+    require 'htmls_to_pdf'
 
-  # Get 'CoffeeScript, Meet Backbone.js' as pdf file
-  # Source: 'http://adamjspooner.github.com/coffeescript-meet-backbonejs/'
+    # Get 'CoffeeScript, Meet Backbone.js' as pdf file
+    # Source: 'http://adamjspooner.github.com/coffeescript-meet-backbonejs/'
 
-  config = {}
-  config[:urls] = ['http://adamjspooner.github.com/coffeescript-meet-backbonejs/']
-  (1..5).each do |val|
-    config[:urls] << 'http://adamjspooner.github.com/coffeescript-meet-backbonejs/0' + val.to_s + '/docs/script.html'
-  end
-  config[:savedir] = '~/Tech/Javascript/COFFEESCRIPT/BACKBONE.JS'
-  config[:savename] = 'CoffeeScript_Meet_Backbone.js.pdf'
+    config = {}
+    config[:urls] = ['http://adamjspooner.github.com/coffeescript-meet-backbonejs/']
+    (1..5).each do |val|
+      config[:urls] << 'http://adamjspooner.github.com/coffeescript-meet-backbonejs/0' + val.to_s + '/docs/script.html'
+    end
+    config[:savedir] = '~/Tech/Javascript/COFFEESCRIPT/BACKBONE.JS'
+    config[:savename] = 'CoffeeScript_Meet_Backbone.js.pdf'
 
-  # If a :css key is given with an array value, the CSS files in the array will be used to generate
-  # the PDF document. This allows you to modify the CSS file(s) to, for example, hide HTML headers,
-  # sidebars and footers you do not wish to appear in your PDF.
-  config[:css] = ['http://adamjspooner.github.com/coffeescript-meet-backbonejs/05/docs/docco.css']
+    # If a :css key is given with an array value, the CSS files in the array will be used to generate
+    # the PDF document. This allows you to modify the CSS file(s) to, for example, hide HTML headers,
+    # sidebars and footers you do not wish to appear in your PDF.
+    config[:css] = ['http://adamjspooner.github.com/coffeescript-meet-backbonejs/05/docs/docco.css']
 
-  # If a :options key is passed with a hash value, that hash will be passed to wkhtmltopdf.
-  # Many options are available through wkhtmltopdf; see: [the wkhtmltopdf documentation](http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf-0.9.9-doc.html).
-  config[:options] = {:page_size => 'Letter', :orientation => 'Landscape'}
+    # If a :options key is passed with a hash value, that hash will be passed to wkhtmltopdf.
+    # Many options are available through wkhtmltopdf; see: [the wkhtmltopdf documentation](http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf-0.9.9-doc.html).
+    config[:options] = {:page_size => 'Letter', :orientation => 'Landscape'}
 
-  HtmlsToPdf.new(config).create_pdf
+    HtmlsToPdf.new(config).create_pdf
 
 ## LEGAL DISCLAIMER
 
