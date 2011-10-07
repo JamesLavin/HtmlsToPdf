@@ -8,6 +8,8 @@ class HtmlsToPdf
 
   attr_reader :hfarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files
 
+  TMP_FILE_PREFIX = 'tmp_html_file_'
+
   def initialize(in_config = {})
     config = {
       :css => [],
@@ -93,10 +95,10 @@ class HtmlsToPdf
 
   def download_html_files
     existing_files = Dir.entries(".")
-    @urls.each do |url|
-      savename = File.basename(url)
+    @urls.each_with_index do |url,idx|
+      savename = TMP_FILE_PREFIX + idx.to_s
       unless existing_files.include?(savename)
-        `wget #{url}`
+        `wget #{url} -O #{savename}`
       end
     end
   end
@@ -109,7 +111,7 @@ class HtmlsToPdf
   end
 
   def generate_pdfs
-    @hfarray.each_with_index { |html_file,i| html_to_pdf(html_file,@pdfarray[i]) }
+    @hfarray.each_with_index { |html_file,i| html_to_pdf(TMP_FILE_PREFIX + i.to_s,@pdfarray[i]) }
   end
 
   def html_to_pdf(html_file,pdf_file)
