@@ -8,16 +8,28 @@ class HtmlsToPdf
 
   attr_reader :hfarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files
 
-  def initialize(savedir, savename, urls_array, css_array = [], remove_temp_files = true)
-    set_dir(savedir)
-    @savename = savename
+  def initialize(config = {})
+    set_dir(config[:savedir])
+    @savename = config[:savename]
     exit_if_pdf_exists
-    @urls = clean_urls(urls_array)
+    @urls = clean_urls(config[:urls])
     @hfarray = get_hfarray
     @pdfarray = create_pdfarray
-    @cssarray = css_array
-    @remove_temp_files = remove_temp_files
+    @cssarray = config[:css] || []
+    @remove_temp_files = config[:remove_temp_files] || true
+    @options = config[:options] || {}
   end
+
+  #def initialize(savedir, savename, urls_array, css_array = [], remove_temp_files = true)
+  #  set_dir(savedir)
+  #  @savename = savename
+  #  exit_if_pdf_exists
+  #  @urls = clean_urls(urls_array)
+  #  @hfarray = get_hfarray
+  #  @pdfarray = create_pdfarray
+  #  @cssarray = css_array
+  #  @remove_temp_files = remove_temp_files
+  #end
 
   def get_hfarray
     everything_after_last_slash(@urls)

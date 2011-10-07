@@ -14,10 +14,10 @@ def ruby_hard_way_urls
   urls
 end
 
-savedir = '~/Ruby_programs/Learn_Ruby_the_Hard_Way'
-savename = 'Learn_Ruby_the_Hard_Way.pdf'
-urls = ruby_hard_way_urls
-css = ['http://ruby.learncodethehardway.org/book/css/syntax.css']
+config[:savedir] = '~/Ruby_programs/Learn_Ruby_the_Hard_Way'
+config[:savename] = 'Learn_Ruby_the_Hard_Way.pdf'
+config[:urls] = ruby_hard_way_urls
+config[:css] = ['http://ruby.learncodethehardway.org/book/css/syntax.css']
+config[:remove_temp_files] = false
 
-html_files = HtmlsToPdf.new(savedir,savename,urls,css,false)
-html_files.create_pdf
+html_files = HtmlsToPdf.new(config).create_pdf

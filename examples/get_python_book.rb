@@ -14,9 +14,10 @@ def python_hard_way_urls
   urls
 end
 
-savedir = '~/Tech/Python/Learn_Python_the_Hard_Way'
-savename = 'Learn_Python_the_Hard_Way.pdf'
-urls = python_hard_way_urls
-css = ['http://learnpythonthehardway.org/book/_static/basic.css']
-html_files = HtmlsToPdf.new(savedir,savename,urls,css,false)
-html_files.create_pdf
+config[:savedir] = '~/Tech/Python/Learn_Python_the_Hard_Way'
+config[:savename] = 'Learn_Python_the_Hard_Way.pdf'
+config[:urls] = python_hard_way_urls
+config[:css] = ['http://learnpythonthehardway.org/book/_static/basic.css']
+config[:remove_temp_files] = false
+
+HtmlsToPdf.new(config).create_pdf
