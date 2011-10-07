@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.email           = ['htmls_to_pdf@futureresearch.com']
   s.summary         = %q{Creates single PDF file from 1+ HTML pages}
   s.description     = %q{Creates single PDF file from 1+ HTML pages using PDFKit}
+  s.add_runtime_dependency 'pdfkit', '~> 0.5', '>= 0.5.2'
   s.add_development_dependency 'rspec'
   s.require_paths   = ['lib']
   s.files           = `git ls-files`.split("\n")
