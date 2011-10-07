@@ -21,23 +21,11 @@ class HtmlsToPdf
     @savename = config[:savename]
     exit_if_pdf_exists
     @urls = clean_urls(config[:urls])
-    #@htmlarray = get_htmlarray
     @pdfarray = create_pdfarray
     @cssarray = config[:css]
     @remove_temp_files = config[:remove_temp_files]
     @options = config[:options]
   end
-
-  #def initialize(savedir, savename, urls_array, css_array = [], remove_temp_files = true)
-  #  set_dir(savedir)
-  #  @savename = savename
-  #  exit_if_pdf_exists
-  #  @urls = clean_urls(urls_array)
-  #  @htmlarray = get_htmlarray
-  #  @pdfarray = create_pdfarray
-  #  @cssarray = css_array
-  #  @remove_temp_files = remove_temp_files
-  #end
 
   def get_htmlarray
     everything_after_last_slash(@urls)
