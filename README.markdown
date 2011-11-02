@@ -32,13 +32,39 @@ For information on PDFKit:
 
 ## BASIC USAGE
 
-You will find six example scripts in the /examples directory.
+You will find seven example scripts in the /examples directory.
 
 After you install HtmlsToPdf and its dependencies, you can write an ordinary Ruby script with the following features:
 
 ### EXAMPLE 1
 
-Annotated version of /examples/get_rubygems_user_guide.rb:
+Annotated version of /examples/get\_rails\_3\_1\_release\_notes.rb:
+
+    # require the gem
+    require 'rubygems'
+    require 'htmls_to_pdf'
+
+    # Get 'Rails 3.1 Release Notes' as pdf file
+    # Source: 'http://guides.rubyonrails.org/3_1_release_notes.html'
+
+    # create an empty hash to hold your configuration options
+    config = {}
+    config[:urls] = ['http://guides.rubyonrails.org/3_1_release_notes.html']
+
+    # set a :savedir key with a string value indicating the directory to create
+    # your PDF file in. If the directory does not exist, it will be created
+    config[:savedir] = '~/Tech/Rails/3.1'
+
+    # set a :savename key with a string value indicating the name of the PDF file
+    config[:savename] = 'Rails_3.1_Release_Notes.pdf'
+
+    # create a new HtmlsToPdf object, passing in your hash, and then call create_pdf
+    # on the new object
+    HtmlsToPdf.new(config).create_pdf
+
+### EXAMPLE 2
+
+Annotated version of /examples/get\_rubygems\_user\_guide.rb:
 
     # require the gem
     require 'rubygems'
@@ -69,9 +95,9 @@ Annotated version of /examples/get_rubygems_user_guide.rb:
     # on the new object
     HtmlsToPdf.new(config).create_pdf
 
-### EXAMPLE 2
+### EXAMPLE 3
 
-Annotated version of /examples/get_coffeescript_meet_backbone.rb:
+Annotated version of /examples/get\_coffeescript\_meet\_backbone.rb:
 
     require 'rubygems'
     require 'htmls_to_pdf'
@@ -100,5 +126,5 @@ Annotated version of /examples/get_coffeescript_meet_backbone.rb:
 
 ## LEGAL DISCLAIMER
 
-Please use at your own risk. I do not guarantee anything about this program.
+Please use at your own risk. I guarantee nothing about this program.
 
