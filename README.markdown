@@ -32,7 +32,22 @@ For information on PDFKit:
 
 ## BASIC USAGE
 
-You will find seven example scripts in the /examples directory.
+You will find 14 example scripts in the /examples directory. Each creates a PDF from a website:
+
+- Adam Wiggins' The 12 Factor App
+- Greg Wooledge's Bash Guide
+- http://adamjspooner.github.com/coffeescript-meet-backbonejs/
+- Coffeescript documentation
+- Elegantcode.com's Exploring Coffeescript series
+- The Little Book on Coffeescript
+- Natural Language Processing for the Working Programmer
+- Learn Python the Hard Way
+- Rails 3.1 release notes
+- Ruby on Rails Guides
+- RSpec-Rails documentation
+- RSpec documentation
+- Learn Ruby the Hard Way
+- RubyGems User Guide
 
 After you install HtmlsToPdf and its dependencies, you can write an ordinary Ruby script with the following features:
 
