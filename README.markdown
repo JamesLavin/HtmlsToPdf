@@ -24,13 +24,13 @@ For information on qtwebkit:
 
 For information on wkhtmltopdf:
 
-- [Installation guide from PDFKit author](https://github.com/jdpace/PDFKit/wiki/Installing-WKHTMLTOPDF)
+- [Installation guide from PDFKit author](https://github.com/pdfkit/PDFKit/wiki/Installing-WKHTMLTOPDF)
 
 - [code.google.com](http://code.google.com/p/wkhtmltopdf/)
 
 For information on PDFKit:
 
-- [Github](https://github.com/jdpace/PDFKit)
+- [Github](https://github.com/pdfkit/PDFKit)
 
 - [Railscasts](http://railscasts.com/episodes/220-pdfkit)
 
