@@ -4,6 +4,10 @@
 
 HtmlsToPdf enables you to package one or more (ordered) HTML pages as a PDF.
 
+## USEFULNESS
+
+I created HtmlsToPdf because I often see multi-page websites with content I would rather have in a single PDF file, so I can view it offline and search through it. The Ruby on Rails Guides is one example. RSpec documentation is another.
+
 ## REQUIREMENTS
 
 HtmlsToPdf uses the PDFKit gem, which itself uses the [wkhtmltopdf](http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf-0.9.9-doc.html) program, which uses qtwebkit.
