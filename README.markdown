@@ -36,13 +36,14 @@ For information on PDFKit:
 
 ## BASIC USAGE
 
-You will find 14 example scripts in the /examples directory. Each creates a PDF from a website:
+You will find 15 example scripts in the /examples directory. Each creates a PDF from a website:
 
 - Adam Wiggins' The 12 Factor App
 - Greg Wooledge's Bash Guide
 - http://adamjspooner.github.com/coffeescript-meet-backbonejs/
 - Coffeescript documentation
 - Elegantcode.com's Exploring Coffeescript series
+- Jumpstart Labs' Advanced Rails
 - The Little Book on Coffeescript
 - Natural Language Processing for the Working Programmer
 - Learn Python the Hard Way
