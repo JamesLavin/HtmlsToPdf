@@ -15,14 +15,16 @@ class HtmlsToPdf
     config = {
       :css => [],
       :remove_temp_files => true,
-      :options => {}
+      :options => {},
+      :savedir => File.expand_path("~"),
+      :savename => 'htmls_to_pdf.pdf'
     }.merge(in_config)
     set_dir(config[:savedir])
     @savename = config[:savename]
     exit_if_pdf_exists
     @urls = clean_urls(config[:urls])
     @pdfarray = create_pdfarray
-    @cssarray = config[:css]
+    @cssarray = config[:css].kind_of?(Array) ? config[:css] : Array[ config[:css] ]
     @remove_temp_files = config[:remove_temp_files]
     @options = config[:options]
   end
