@@ -3,3 +3,4 @@
 *.html
 *.css
 *.pdf
+**/noko_ruby-doc.rb
