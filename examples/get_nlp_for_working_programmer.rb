@@ -3,10 +3,12 @@ require 'htmls_to_pdf'
 
 # Get 'Natural Language Processing for the Working Programmer' as pdf file
 # Source: 'http://nlpwp.org/book/'
+# With appreciation to author Daniël de Kok
 
 config = {}
 config[:urls] = ['http://nlpwp.org/book/',
                  'http://nlpwp.org/book/preface.xhtml',
+                 'http://nlpwp.org/book/chap-intro.xhtml',
                  'http://nlpwp.org/book/chap-words.xhtml',
                  'http://nlpwp.org/book/chap-ngrams.xhtml',
                  'http://nlpwp.org/book/chap-similarity.xhtml',

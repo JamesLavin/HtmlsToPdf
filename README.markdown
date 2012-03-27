@@ -38,21 +38,22 @@ For information on PDFKit:
 
 You will find 16 example scripts in the /examples directory. Each creates a PDF from a website:
 
-- Adam Wiggins' The 12 Factor App
-- Greg Wooledge's Bash Guide
-- http://adamjspooner.github.com/coffeescript-meet-backbonejs/
-- Coffeescript Cookbook
+- The 12 Factor App (Adam Wiggins)
+- Bash Guide (Greg Wooledge)
+- Coffeescript Meet Backbone.js (Adam J. Spooner)
+- Coffeescript Cookbook ([Various authors](http://coffeescriptcookbook.com/authors))
 - Coffeescript official documentation
 - Exploring Coffeescript (ElegantCode.com)
 - Advanced Rails (Jumpstart Labs)
-- The Little Book on Coffeescript
-- Natural Language Processing for the Working Programmer
-- Learn Python the Hard Way
+- The Little Book on Coffeescript (Alex MacCaw)
+- Natural Language Processing for the Working Programmer (Daniël de Kok)
+- Learn Python the Hard Way (Zed A. Shaw)
+- Practicing Ruby Vol 2 (Gregory Brown)
 - Rails 3.1 release notes
 - Ruby on Rails Guides
 - RSpec-Rails documentation
 - RSpec documentation
-- Learn Ruby the Hard Way
+- Learn Ruby the Hard Way (Zed A. Shaw)
 - RubyGems User Guide
 
 After you install HtmlsToPdf and its dependencies, you can write an ordinary Ruby script to save multiple ordered HTML pages as a single PDF.

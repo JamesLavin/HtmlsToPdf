@@ -2,11 +2,12 @@ require 'rubygems'
 require 'fileutils'
 require 'pdfkit'
 require 'uri'
-include URI
+#include URI
+require 'net/http'
 
 class HtmlsToPdf
 
-  attr_reader :htmlarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files
+  attr_reader :htmlarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_html_files, :remove_css_files, :remove_tmp_pdf_files
 
   TMP_HTML_PREFIX = 'tmp_html_file_'
   TMP_PDF_PREFIX = 'tmp_pdf_file_'
@@ -14,19 +15,42 @@ class HtmlsToPdf
   def initialize(in_config = {})
     config = {
       :css => [],
-      :remove_temp_files => true,
+      :remove_css_files => true,
+      :remove_html_files => true,
+      :remove_tmp_pdf_files => true,
+      :overwrite_existing_pdf => false,
       :options => {},
       :savedir => File.expand_path("~"),
       :savename => 'htmls_to_pdf.pdf'
     }.merge(in_config)
     set_dir(config[:savedir])
     @savename = config[:savename]
-    exit_if_pdf_exists
+    @overwrite_existing_pdf = config[:overwrite_existing_pdf]
+    exit_if_pdf_exists unless @overwrite_existing_pdf
     @urls = clean_urls(config[:urls])
     @pdfarray = create_pdfarray
     @cssarray = config[:css].kind_of?(Array) ? config[:css] : Array[ config[:css] ]
-    @remove_temp_files = config[:remove_temp_files]
+    @remove_css_files = config[:remove_css_files]
+    @remove_html_files = config[:remove_html_files]
+    @remove_tmp_pdf_files = config[:remove_tmp_pdf_files]
+    @remove_css_files = @remove_html_files = @remove_tmp_pdf_files = true if in_config[:remove_temp_files]
     @options = config[:options]
+  end
+
+  def create_pdf
+    clean_temp_files
+    download_files
+    generate_pdfs
+    join_pdfs
+    clean_temp_files
+  end
+
+  private
+
+  def clean_temp_files
+    delete_html_files if @remove_html_files
+    delete_css_files if @remove_css_files
+    delete_tmp_pdf_files if @remove_tmp_pdf_files
   end
 
   def get_htmlarray
@@ -85,13 +109,20 @@ class HtmlsToPdf
     download_css_files
   end
 
+  def save_url_to_savename(url, savename)
+    uri = URI.parse(url)
+    file_content = Net::HTTP.get_response(uri).body
+    File.open(savename, 'w') { |f| f.write(file_content) }
+  end
+
   def download_html_files
     existing_files = Dir.entries(".")
     @htmlarray = []
     @urls.each_with_index do |url,idx|
       savename = TMP_HTML_PREFIX + idx.to_s
       unless existing_files.include?(savename)
-        `wget #{url} -O #{savename}`
+        save_url_to_savename(url, savename)
+        #`wget #{url} -O #{savename}`
       end
       @htmlarray << savename
     end
@@ -100,7 +131,10 @@ class HtmlsToPdf
   def download_css_files
     existing_files = Dir.entries(".")
     @cssarray.each do |css_url|
-      `wget #{css_url}` unless existing_files.include?(File.basename(css_url))
+      savename = File.basename(css_url)
+      next if existing_files.include?(savename)
+      save_url_to_savename(css_url, savename)
+      #`wget #{css_url}` unless existing_files.include?(File.basename(css_url))
     end
   end
 
@@ -127,17 +161,17 @@ class HtmlsToPdf
     end
   end
 
-  def delete_temp_files
-    @pdfarray.each { |pdffile| File.delete(pdffile) }
-    @htmlarray.each { |htmlfile| File.delete(htmlfile) }
-    @cssarray.each { |cssfile| File.delete(File.basename(cssfile)) }
+  def delete_tmp_pdf_files
+    @pdfarray.each { |pdffile| File.delete(pdffile) if File.exist?(File.basename(pdffile)) } unless @pdfarray.empty?
   end
 
-  def create_pdf
-    download_files
-    generate_pdfs
-    join_pdfs
-    delete_temp_files if @remove_temp_files
+  def delete_html_files
+    to_delete = Dir.glob("#{TMP_HTML_PREFIX}*")
+    to_delete.each { |f| File.delete(f) }
+  end
+
+  def delete_css_files
+    @cssarray.each { |cssfile| File.delete(File.basename(cssfile)) if File.exist?(File.basename(cssfile)) } unless @cssarray.empty?
   end
 
 end
