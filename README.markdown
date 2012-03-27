@@ -58,7 +58,7 @@ You will find 16 example scripts in the /examples directory. Each creates a PDF 
 
 After you install HtmlsToPdf and its dependencies, you can write an ordinary Ruby script to save multiple ordered HTML pages as a single PDF.
 
-### EXAMPLE 1
+### EXAMPLE 1: Single Html Page
 
 Annotated version of /examples/get\_rails\_3\_1\_release\_notes.rb:
 
@@ -84,7 +84,7 @@ Annotated version of /examples/get\_rails\_3\_1\_release\_notes.rb:
     # on the new object
     HtmlsToPdf.new(config).create_pdf
 
-### EXAMPLE 2
+### EXAMPLE 2: Multiple HTML pages
 
 Annotated version of /examples/get\_rubygems\_user\_guide.rb:
 
@@ -117,7 +117,7 @@ Annotated version of /examples/get\_rubygems\_user\_guide.rb:
     # on the new object
     HtmlsToPdf.new(config).create_pdf
 
-### EXAMPLE 3
+### EXAMPLE 3: Specify CSS file & send options to PdfKit
 
 Annotated version of /examples/get\_coffeescript\_meet\_backbone.rb:
 
@@ -146,6 +146,55 @@ Annotated version of /examples/get\_coffeescript\_meet\_backbone.rb:
 
     HtmlsToPdf.new(config).create_pdf
 
+### EXAMPLE 4: Modify a CSS file to adjust rendering
+
+Annotated version of /examples/get\_ruby\_core\_docs.rb:
+
+    require 'rubygems'
+    require 'htmls_to_pdf'
+
+    # Get 'Ruby Core documentation' as pdf file
+    # Source: 'http://www.ruby-doc.org/core-1.9.3/'
+
+    config = {}
+
+    config[:urls] = %w(
+    ARGF.html
+    ArgumentError.html
+    Array.html
+    BasicObject.html
+    ...
+    ZeroDivisionError.html
+    fatal.html)
+
+    config[:urls] = config[:urls].map { |u| 'http://www.ruby-doc.org/core-1.9.3/' + u }
+    config[:savedir] = '~/Tech/Ruby/DOCUMENTATION'
+    config[:savename] = 'Ruby_Core_docs.pdf'
+
+    # Specify a CSS file
+    config[:css] = 'http://www.ruby-doc.org/core-1.9.3/css/obf.css'
+
+    # Tell HtmlsToPdf not to remove the CSS file
+    config[:remove_css_files] = false
+
+    # You are now free to create a "obf.css" file in the directory
+    # and edit it however you choose. It will not be overwritten.
+    # (Alternatively, you can run the program once and then modify
+    # the downloaded CSS file.)
+    #
+    # I added the following to the CSS file to suppress unwanted output:
+    #
+    # .info, noscript, #footer, #metadata, #actionbar, .dsq-brlink {
+    #   display: none;
+    #   width: 0;
+    # }
+    # .class #documentation, .file #documentation, .module #documentation {
+    #   margin: 2em 1em 5em 1em;
+    # }
+
+    HtmlsToPdf.new(config).create_pdf
+
+Annotated version of /examples/get\_coffeescript\_meet\_backbone.rb:
 ## LEGAL DISCLAIMER
 
 Please use at your own risk. I guarantee nothing about this program.
