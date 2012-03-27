@@ -36,25 +36,25 @@ For information on PDFKit:
 
 ## BASIC USAGE
 
-You will find 16 example scripts in the /examples directory. Each creates a PDF from a website:
+You will find 17 example scripts in the /examples directory. Each creates a PDF from a website:
 
-- The 12 Factor App (Adam Wiggins)
-- Bash Guide (Greg Wooledge)
-- Coffeescript Meet Backbone.js (Adam J. Spooner)
-- Coffeescript Cookbook ([Various authors](http://coffeescriptcookbook.com/authors))
-- Coffeescript official documentation
-- Exploring Coffeescript (ElegantCode.com)
-- Advanced Rails (Jumpstart Labs)
-- The Little Book on Coffeescript (Alex MacCaw)
-- Natural Language Processing for the Working Programmer (Daniël de Kok)
-- Learn Python the Hard Way (Zed A. Shaw)
-- Practicing Ruby Vol 2 (Gregory Brown)
+- [The 12 Factor App](http://www.12factor.net) (Adam Wiggins)
+- [Bash Guide](http://mywiki.wooledge.org/BashGuide) (Greg Wooledge)
+- [Coffeescript Meet Backbone.js](http://adamjspooner.github.com/coffeescript-meet-backbonejs/) (Adam J. Spooner)
+- [Coffeescript Cookbook](http://coffeescriptcookbook.com) ([Various authors](http://coffeescriptcookbook.com/authors))
+- [Coffeescript official documentation](http://coffeescript.org/)
+- [Exploring Coffeescript](http://elegantcode.com/2011/08/09/exploring-coffeescript-part-6-show-me-the-goodies/) (ElegantCode.com)
+- [Advanced Rails - Five-Day](http://tutorials.jumpstartlab.com/paths/advanced_rails_five_day.html) (Jumpstart Labs)
+- [The Little Book on Coffeescript](http://arcturo.github.com/library/coffeescript/) (Alex MacCaw)
+- [Natural Language Processing for the Working Programmer](nlpwp.org/book/) (Daniël de Kok)
+- [Learn Python the Hard Way](http://learnpythonthehardway.org) (Zed A. Shaw)
+- [Practicing Ruby Vol 2](http://community.mendicantuniversity.org/articles/practicing-ruby-volume-2-now-freely-avai) (Gregory Brown)
 - Rails 3.1 release notes
-- Ruby on Rails Guides
-- RSpec-Rails documentation
-- RSpec documentation
-- Learn Ruby the Hard Way (Zed A. Shaw)
-- RubyGems User Guide
+- [Ruby on Rails Guides](http://guides.rubyonrails.org)
+- [RSpec-Rails documentation](https://www.relishapp.com/rspec/rspec-rails/docs)
+- [RSpec documentation](https://www.relishapp.com/rspec/rspec-rails/docs)
+- [Learn Ruby the Hard Way](http://ruby.learncodethehardway.org) (Zed A. Shaw)
+- [RubyGems User Guide](http://docs.rubygems.org/read/book/1)
 
 After you install HtmlsToPdf and its dependencies, you can write an ordinary Ruby script to save multiple ordered HTML pages as a single PDF.
 
@@ -191,6 +191,10 @@ Annotated version of /examples/get\_ruby\_core\_docs.rb:
     # .class #documentation, .file #documentation, .module #documentation {
     #   margin: 2em 1em 5em 1em;
     # }
+    #
+    # If you're playing around with CSS to optimize the display in your
+    # PDF, I recommend you set config[:remove_html_files] = false to
+    # avoid repeatedly downloading the HTML files from the server.
 
     HtmlsToPdf.new(config).create_pdf
 
