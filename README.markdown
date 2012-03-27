@@ -6,7 +6,7 @@ HtmlsToPdf enables you to package one or more (ordered) HTML pages as a PDF.
 
 ## USEFULNESS
 
-I created HtmlsToPdf because I often see multi-page websites with content I would rather have in a single PDF file, so I can view it offline and search through it. The Ruby on Rails Guides is one example. RSpec documentation is another.
+I created HtmlsToPdf because I often see multi-page websites with content I would rather have in a single PDF file for searching and offline viewing. Examples include: The Ruby on Rails Guides and RSpec documentation.
 
 ## REQUIREMENTS
 
@@ -36,6 +36,36 @@ For information on PDFKit:
 
 ## BASIC USAGE
 
+To use HtmlsToPdf, you create a new HtmlsToPdf object and pass in all your configuration options. You then call create_pdf on the new object:
+
+    require 'rubygems'
+    require 'htmls_to_pdf'
+
+    config = {}
+    config[:urls] = ['http://.../url1.htm', 'https://.../url2.html']
+    config[:savedir] = '~/my/savedir'
+    config[:savename] = 'Name_to_save_file_as.pdf'
+
+    HtmlsToPdf.new(config).create_pdf
+
+## OPTIONS
+
+config[:css] takes an array of CSS files to apply during PDF rendering. (You can also pass a single CSS file as a string.)
+
+config[:overwrite_existing_pdf] (default: false) enables/prohibits the program from overwriting a previously generated PDF file
+
+config[:options] takes a hash of options that are passed through to PdfKit
+
+config[:remove_css_files] (default: true) enables/prohibits deletion of CSS files used to generate the PDF file. You probably want to set this to false if you want to modify the CSS file.
+
+config[:remove_html_files] (default: true) enables/prohibits deletion of HTML files downloaded from websites and used to generate the PDF file. You probably want to set this to false if you think you may want to regenerate the PDF again, perhaps because you're tweaking the CSS file to adjust rendering.
+
+config[:remove_tmp_pdf_files] (default: true) enables/prohibits deletion of temporary PDF files (one per HTML file) created during the PDF generation process. You probably want to accept the default and always regenerate the temporary PDFs.
+
+config[:remove_temp_files] sets :remove_css_files, :remove_html_files, and :remove_tmp_pdf_files all to true
+
+## EXAMPLES
+
 You will find 17 example scripts in the /examples directory. Each creates a PDF from a website:
 
 - [The 12 Factor App](http://www.12factor.net) (Adam Wiggins)
@@ -58,7 +88,7 @@ You will find 17 example scripts in the /examples directory. Each creates a PDF 
 
 After you install HtmlsToPdf and its dependencies, you can write an ordinary Ruby script to save multiple ordered HTML pages as a single PDF.
 
-### EXAMPLE 1: Single Html Page
+### EXAMPLE 1: Single HTML page without CSS
 
 Annotated version of /examples/get\_rails\_3\_1\_release\_notes.rb:
 
@@ -84,7 +114,7 @@ Annotated version of /examples/get\_rails\_3\_1\_release\_notes.rb:
     # on the new object
     HtmlsToPdf.new(config).create_pdf
 
-### EXAMPLE 2: Multiple HTML pages
+### EXAMPLE 2: Multiple HTML pages without CSS
 
 Annotated version of /examples/get\_rubygems\_user\_guide.rb:
 
@@ -117,7 +147,7 @@ Annotated version of /examples/get\_rubygems\_user\_guide.rb:
     # on the new object
     HtmlsToPdf.new(config).create_pdf
 
-### EXAMPLE 3: Specify CSS file & send options to PdfKit
+### EXAMPLE 3: Multiple HTML pages with CSS & PdfKit formatting options
 
 Annotated version of /examples/get\_coffeescript\_meet\_backbone.rb:
 
@@ -146,7 +176,7 @@ Annotated version of /examples/get\_coffeescript\_meet\_backbone.rb:
 
     HtmlsToPdf.new(config).create_pdf
 
-### EXAMPLE 4: Modify a CSS file to adjust rendering
+### EXAMPLE 4: Multiple HTML pages with hand-modified CSS file to adjust rendering
 
 Annotated version of /examples/get\_ruby\_core\_docs.rb:
 

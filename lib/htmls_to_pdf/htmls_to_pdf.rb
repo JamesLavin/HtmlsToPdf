@@ -75,7 +75,7 @@ class HtmlsToPdf
   end
 
   def add_dot_html(urls)
-    urls.map { |url| url.match(/\.html?$/) ? url : url + '.html' }
+    urls.map { |url| url.match(/\.s?html?$/) ? url : url + '.html' }
   end
 
   def create_pdfarray
