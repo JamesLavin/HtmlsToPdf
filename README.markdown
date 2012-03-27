@@ -56,7 +56,7 @@ To use HtmlsToPdf, you create a new HtmlsToPdf object and pass in all your confi
 
 `config[:options]` takes a hash of options that are passed through to PdfKit
 
-`config[:remove_css_files]` (default: true) determines whether CSS files used to generate the PDF file are deleted or retained. You probably want to set this to false if you want to modify the CSS file.
+`config[:remove_css_files]` (default: true) determines whether CSS files used to generate the PDF file are deleted or retained. You probably want to set this to false if you want to modify the CSS file(s).
 
 `config[:remove_html_files]` (default: true) determines whether HTML files downloaded from websites and used to generate the PDF file are deleted or retained. You probably want to set this to false if you think you may want to regenerate the PDF again, perhaps because you're tweaking the CSS file to adjust rendering.
 
@@ -228,7 +228,6 @@ Annotated version of /examples/get\_ruby\_core\_docs.rb:
 
     HtmlsToPdf.new(config).create_pdf
 
-Annotated version of /examples/get\_coffeescript\_meet\_backbone.rb:
 ## LEGAL DISCLAIMER
 
 Please use at your own risk. I guarantee nothing about this program.
