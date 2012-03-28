@@ -120,6 +120,9 @@ describe "initialization" do
       subject.should_receive(:join_pdfs).once.and_return('PDF files joined')
       subject.create_pdf
       a_request(:get, "www.fakeurl.com/adfsdafds.html").should have_been_made
+      a_request(:get, "anotherfakedomain.com:443/blog/posts/143.htm").should have_been_made
+      a_request(:get, "fakeurl.com/assets/cssfile.css").should have_been_made
+      a_request(:get, "www.anotherfakedomain.com:443/public/css/CSS-file.css").should have_been_made
     end
 
   end
