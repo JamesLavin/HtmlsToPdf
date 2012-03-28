@@ -10,6 +10,8 @@ I created HtmlsToPdf because I often see multi-page websites with content I woul
 
 ## REQUIREMENTS
 
+I have run this only on Linux. It likely works on OS X. It may not work on Windows.
+
 HtmlsToPdf uses the PDFKit gem, which itself uses the [wkhtmltopdf](http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf-0.9.9-doc.html) program, which uses qtwebkit.
 
 Dependence chain summary: HtmlsToPdf -> PDFKit -> wkhtmltopdf -> qtwebkit -> webkit
@@ -62,7 +64,7 @@ To use HtmlsToPdf, you create a new HtmlsToPdf object and pass in all your confi
 
 `config[:remove_tmp_pdf_files]` (default: true) determines whether temporary PDF files (one per HTML file) created during the PDF generation process are deleted or retained. You probably want to accept the default and always regenerate the temporary PDFs.
 
-`config[:remove_temp_files]` sets `:remove_css_files`, `:remove_html_files`, and `:remove_tmp_pdf_files` all to true
+`config[:remove_temp_files]` (default: false) sets `:remove_css_files`, `:remove_html_files`, and `:remove_tmp_pdf_files` all to true
 
 ## EXAMPLES
 

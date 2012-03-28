@@ -7,7 +7,7 @@ require 'net/http'
 
 class HtmlsToPdf
 
-  attr_reader :htmlarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_html_files, :remove_css_files, :remove_tmp_pdf_files
+  attr_reader :htmlarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files, :remove_html_files, :remove_css_files, :remove_tmp_pdf_files, :options, :overwrite_existing_pdf
 
   TMP_HTML_PREFIX = 'tmp_html_file_'
   TMP_PDF_PREFIX = 'tmp_pdf_file_'
@@ -20,10 +20,10 @@ class HtmlsToPdf
       :remove_tmp_pdf_files => true,
       :overwrite_existing_pdf => false,
       :options => {},
-      :savedir => File.expand_path("~"),
+      :savedir => "~",
       :savename => 'htmls_to_pdf.pdf'
     }.merge(in_config)
-    set_dir(config[:savedir])
+    set_dir(File.expand_path(config[:savedir]))
     @savename = config[:savename]
     @overwrite_existing_pdf = config[:overwrite_existing_pdf]
     exit_if_pdf_exists unless @overwrite_existing_pdf
