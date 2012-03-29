@@ -155,7 +155,7 @@ class HtmlsToPdf
   end
 
   def join_pdfs
-    unless File.exists?(@savename)
+    unless File.exists?(@savename) && !overwrite_existing_pdf
       pdfs_string = @pdfarray.join(" ")
       `pdftk #{pdfs_string} output #{@savename}`
     end

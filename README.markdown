@@ -68,7 +68,7 @@ To use HtmlsToPdf, you create a new HtmlsToPdf object and pass in all your confi
 
 ## EXAMPLES
 
-You will find 17 example scripts in the /examples directory. Each creates a PDF from a website:
+You will find 18 example scripts in the /examples directory. Each creates a PDF from a website:
 
 - [The 12 Factor App](http://www.12factor.net) (Adam Wiggins)
 - [Bash Guide](http://mywiki.wooledge.org/BashGuide) (Greg Wooledge)
@@ -81,6 +81,7 @@ You will find 17 example scripts in the /examples directory. Each creates a PDF 
 - [Natural Language Processing for the Working Programmer](nlpwp.org/book/) (Daniël de Kok)
 - [Learn Python the Hard Way](http://learnpythonthehardway.org) (Zed A. Shaw)
 - [Practicing Ruby Vol 2](http://community.mendicantuniversity.org/articles/practicing-ruby-volume-2-now-freely-avai) (Gregory Brown)
+- [The Python Tutorial](http://docs.python.org/tutorial/index.html)
 - Rails 3.1 release notes
 - [Ruby on Rails Guides](http://guides.rubyonrails.org)
 - [RSpec-Rails documentation](https://www.relishapp.com/rspec/rspec-rails/docs)
