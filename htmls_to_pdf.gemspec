@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.platform        = Gem::Platform::RUBY
   s.authors         = ['James Lavin']
   s.email           = ['htmls_to_pdf@futureresearch.com']
+  s.homepage        = "https://github.com/JamesLavin/HtmlsToPdf"
   s.summary         = %q{Creates single PDF file from 1+ HTML pages}
   s.description     = %q{Creates single PDF file from 1+ HTML pages using PDFKit}
   s.add_runtime_dependency 'pdfkit', '~> 0.5', '>= 0.5.2'
