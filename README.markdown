@@ -70,9 +70,10 @@ To use HtmlsToPdf, you create a new HtmlsToPdf object and pass in all your confi
 
 ## EXAMPLES
 
-You will find 18 example scripts in the /examples directory. Each creates a PDF from a website:
+You will find 19 example scripts in the /examples directory. Each creates a PDF from a website:
 
 - [The 12 Factor App](http://www.12factor.net) (Adam Wiggins)
+- [Backbone Fundamentals](https://github.com/addyosmani/backbone-fundamentals/blob/master/book.md) (Addy Osmani)
 - [Bash Guide](http://mywiki.wooledge.org/BashGuide) (Greg Wooledge)
 - [Coffeescript Meet Backbone.js](http://adamjspooner.github.com/coffeescript-meet-backbonejs/) (Adam J. Spooner)
 - [Coffeescript Cookbook](http://coffeescriptcookbook.com) ([Various authors](http://coffeescriptcookbook.com/authors))

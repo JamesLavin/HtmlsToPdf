@@ -4,3 +4,4 @@
 *.css
 *.pdf
 **/noko_ruby-doc.rb
+.rbenv-version
