@@ -39,7 +39,8 @@ class HtmlsToPdf
 
   def create_pdf
     clean_temp_files
-    download_files
+    get_temp_files
+    update_asset_urls
     generate_pdfs
     join_pdfs
     clean_temp_files
@@ -78,6 +79,10 @@ class HtmlsToPdf
     urls.map { |url| url.match(/\.s?html?$/) ? url : url + '.html' }
   end
 
+  def update_asset_urls
+    
+  end
+
   def create_pdfarray
     outarray = []
     (0...@urls.length).each do |idx|
@@ -104,9 +109,9 @@ class HtmlsToPdf
   #  @cssarray << css_file
   #end
 
-  def download_files
-    download_html_files
-    download_css_files
+  def get_temp_files
+    get_html_files
+    get_css_files
   end
 
   def save_url_to_savename(url, savename)
@@ -115,7 +120,7 @@ class HtmlsToPdf
     File.open(savename, 'w') { |f| f.write(file_content) }
   end
 
-  def download_html_files
+  def get_html_files
     existing_files = Dir.entries(".")
     @htmlarray = []
     @urls.each_with_index do |url,idx|
@@ -128,7 +133,7 @@ class HtmlsToPdf
     end
   end
 
-  def download_css_files
+  def get_css_files
     existing_files = Dir.entries(".")
     @cssarray.each do |css_url|
       savename = File.basename(css_url)
