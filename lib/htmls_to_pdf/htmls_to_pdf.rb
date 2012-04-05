@@ -4,6 +4,7 @@ require 'pdfkit'
 require 'uri'
 #include URI
 require 'net/http'
+require 'net/https'
 
 class HtmlsToPdf
 
@@ -40,7 +41,7 @@ class HtmlsToPdf
   def create_pdf
     clean_temp_files
     get_temp_files
-    update_asset_urls
+    # update_asset_urls
     generate_pdfs
     join_pdfs
     clean_temp_files
@@ -80,7 +81,13 @@ class HtmlsToPdf
   end
 
   def update_asset_urls
-    
+    img_urls = []
+    html_array.each do |html_file|
+      File.open(html_file) do |f|
+        img_urls 
+      end
+    end
+    exit
   end
 
   def create_pdfarray
@@ -114,9 +121,24 @@ class HtmlsToPdf
     get_css_files
   end
 
-  def save_url_to_savename(url, savename)
+  def get_http_https(url)
     uri = URI.parse(url)
-    file_content = Net::HTTP.get_response(uri).body
+    if /^https:\/\//.match(url)
+      https = Net::HTTP.new(uri.host, uri.port)
+      https.use_ssl = true
+      https.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      request = Net::HTTP::Get.new(uri.request_uri)
+      response = https.request(request)
+      return response.body
+    elsif /^http:\/\//.match(url)
+      return Net::HTTP.get_response(uri).body
+    else
+      raise "Cannot parse URI: #{uri}"
+    end
+  end
+
+  def save_url_to_savename(url, savename)
+    file_content = get_http_https(url)
     File.open(savename, 'w') { |f| f.write(file_content) }
   end
 
