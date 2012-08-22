@@ -25,19 +25,12 @@ class HtmlsToPdf
       :savename => 'htmls_to_pdf.pdf',
       :debug => false
     }.merge(in_config)
+
     set_dir(File.expand_path(config[:savedir]))
-    @savename = config[:savename]
-    @overwrite_existing_pdf = config[:overwrite_existing_pdf]
+
+    set_instance_vars(config)
+    
     exit_if_pdf_exists unless @overwrite_existing_pdf
-    @urls = clean_urls(config[:urls])
-    @pdfarray = create_pdfarray
-    @cssarray = config[:css].kind_of?(Array) ? config[:css] : Array[ config[:css] ]
-    @remove_css_files = config[:remove_css_files]
-    @remove_html_files = config[:remove_html_files]
-    @remove_tmp_pdf_files = config[:remove_tmp_pdf_files]
-    @remove_css_files = @remove_html_files = @remove_tmp_pdf_files = true if in_config[:remove_temp_files]
-    @debug = config[:debug]
-    @options = config[:options]
   end
 
   def create_pdf
@@ -53,6 +46,20 @@ class HtmlsToPdf
 
   def debug
     @debug
+  end
+
+  def set_instance_vars(config)
+    @savename = config[:savename]
+    @overwrite_existing_pdf = config[:overwrite_existing_pdf]
+    @urls = clean_urls(config[:urls])
+    @pdfarray = create_pdfarray
+    @cssarray = Array(config[:css])
+    @remove_css_files = config[:remove_css_files]
+    @remove_html_files = config[:remove_html_files]
+    @remove_tmp_pdf_files = config[:remove_tmp_pdf_files]
+    @remove_css_files = @remove_html_files = @remove_tmp_pdf_files = true if in_config[:remove_temp_files]
+    @debug = config[:debug]
+    @options = config[:options]
   end
 
   def clean_temp_files
