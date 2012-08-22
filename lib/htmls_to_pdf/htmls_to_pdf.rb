@@ -22,7 +22,8 @@ class HtmlsToPdf
       :overwrite_existing_pdf => false,
       :options => {},
       :savedir => "~",
-      :savename => 'htmls_to_pdf.pdf'
+      :savename => 'htmls_to_pdf.pdf',
+      :debug => false
     }.merge(in_config)
     set_dir(File.expand_path(config[:savedir]))
     @savename = config[:savename]
@@ -35,6 +36,7 @@ class HtmlsToPdf
     @remove_html_files = config[:remove_html_files]
     @remove_tmp_pdf_files = config[:remove_tmp_pdf_files]
     @remove_css_files = @remove_html_files = @remove_tmp_pdf_files = true if in_config[:remove_temp_files]
+    @debug = config[:debug]
     @options = config[:options]
   end
 
@@ -48,6 +50,10 @@ class HtmlsToPdf
   end
 
   private
+
+  def debug
+    @debug
+  end
 
   def clean_temp_files
     delete_html_files if @remove_html_files
@@ -128,6 +134,7 @@ class HtmlsToPdf
       https.use_ssl = true
       https.verify_mode = OpenSSL::SSL::VERIFY_NONE
       request = Net::HTTP::Get.new(uri.request_uri)
+      puts "Downloading #{url}" if debug
       response = https.request(request)
       return response.body
     elsif /^http:\/\//.match(url)
@@ -138,6 +145,7 @@ class HtmlsToPdf
   end
 
   def save_url_to_savename(url, savename)
+    puts "Saving #{url} to #{savename}" if debug
     file_content = get_http_https(url)
     File.open(savename, 'w') { |f| f.write(file_content) }
   end
@@ -148,6 +156,7 @@ class HtmlsToPdf
     @urls.each_with_index do |url,idx|
       savename = TMP_HTML_PREFIX + idx.to_s
       unless existing_files.include?(savename)
+        puts "Saving #{url} to #{savename}" if debug
         save_url_to_savename(url, savename)
         #`wget #{url} -O #{savename}`
       end
@@ -160,6 +169,7 @@ class HtmlsToPdf
     @cssarray.each do |css_url|
       savename = File.basename(css_url)
       next if existing_files.include?(savename)
+      puts "Saving #{css_url} to #{savename}" if debug
       save_url_to_savename(css_url, savename)
       #`wget #{css_url}` unless existing_files.include?(File.basename(css_url))
     end
@@ -170,7 +180,7 @@ class HtmlsToPdf
   end
 
   def html_to_pdf(html_file,pdf_file)
-    puts "creating #{pdf_file} from #{html_file}"
+    puts "Creating #{pdf_file} from #{html_file}" if debug
     html = nil
     unless Dir.entries(".").include?(pdf_file)
       File.open(html_file, 'r') { |inf| html = inf.read }
@@ -183,21 +193,25 @@ class HtmlsToPdf
 
   def join_pdfs
     unless File.exists?(@savename) && !overwrite_existing_pdf
+      puts "Merging PDF files into single PDF" if debug
       pdfs_string = @pdfarray.join(" ")
       `pdftk #{pdfs_string} output #{@savename}`
     end
   end
 
   def delete_tmp_pdf_files
+    puts "Deleting temporary PDF files" if debug
     @pdfarray.each { |pdffile| File.delete(pdffile) if File.exist?(File.basename(pdffile)) } unless @pdfarray.empty?
   end
 
   def delete_html_files
+    puts "Deleting HTML files" if debug
     to_delete = Dir.glob("#{TMP_HTML_PREFIX}*")
     to_delete.each { |f| File.delete(f) }
   end
 
   def delete_css_files
+    puts "Deleting CSS files" if debug
     @cssarray.each { |cssfile| File.delete(File.basename(cssfile)) if File.exist?(File.basename(cssfile)) } unless @cssarray.empty?
   end
 
