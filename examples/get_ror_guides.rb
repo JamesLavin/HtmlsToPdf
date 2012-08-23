@@ -41,8 +41,12 @@ config[:urls] = [
           ]
 config[:savedir] = '~/Tech/Rails/RAILS_GUIDES'
 config[:savename] = 'Ruby_on_Rails_Guides.pdf'
-config[:css] = [
-                'http://guides.rubyonrails.org/stylesheets/print.css']
+config[:css] = ['http://guides.rubyonrails.org/stylesheets/style.css',
+                'http://guides.rubyonrails.org/stylesheets/print.css',
+                'http://guides.rubyonrails.org/stylesheets/syntaxhighlighter/shCore.css',
+                'http://guides.rubyonrails.org/stylesheets/syntaxhighlighter/shThemeRailsGuides.css',
+                'http://guides.rubyonrails.org/stylesheets/fixes.css']
 config[:remove_temp_files] = true
+config[:overwrite_existing_pdf] = true
 
 HtmlsToPdf.new(config).create_pdf
