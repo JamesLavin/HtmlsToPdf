@@ -6,9 +6,15 @@ require 'uri'
 require 'net/http'
 require 'net/https'
 
+# HtmlsToPdf.new takes a configuration hash and returns an object with a create_pdf() method
+# Calling create_pdf() on the HtmlsToPdf object generates a PDF file configured according to 
+# the configuration hash settings
+#
+# Usage:
+# HtmlsToPdf.new(options_hash).create_pdf
 class HtmlsToPdf
 
-  attr_reader :htmlarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files, :remove_html_files, :remove_css_files, :remove_tmp_pdf_files, :options, :overwrite_existing_pdf
+  attr_accessor :debug, :htmlarray, :pdfarray, :cssarray, :urls, :savedir, :savename, :remove_temp_files, :remove_html_files, :remove_css_files, :remove_tmp_pdf_files, :options, :overwrite_existing_pdf
 
   TMP_HTML_PREFIX = 'tmp_html_file_'
   TMP_PDF_PREFIX = 'tmp_pdf_file_'
@@ -42,10 +48,6 @@ class HtmlsToPdf
   end
 
   private
-
-  def debug
-    @debug
-  end
 
   def set_instance_vars(config)
     @savedir = File.expand_path(config[:savedir])
@@ -143,6 +145,7 @@ class HtmlsToPdf
       response = https.request(request)
       return response.body
     elsif /^http:\/\//.match(url)
+      puts "Downloading #{url}" if debug
       return Net::HTTP.get_response(uri).body
     else
       raise "Cannot parse URI: #{uri}"
