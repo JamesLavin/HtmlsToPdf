@@ -13,23 +13,22 @@ class HtmlsToPdf
   TMP_HTML_PREFIX = 'tmp_html_file_'
   TMP_PDF_PREFIX = 'tmp_pdf_file_'
 
-  def initialize(in_config = {})
-    config = {
-      :css => [],
-      :remove_css_files => true,
-      :remove_html_files => true,
-      :remove_tmp_pdf_files => true,
-      :overwrite_existing_pdf => false,
-      :options => {},
-      :savedir => "~",
-      :savename => 'htmls_to_pdf.pdf',
-      :debug => false
-    }.merge(in_config)
-
-    set_dir(File.expand_path(config[:savedir]))
+  def initialize(config = {})
+    defaults = {
+      remove_css_files:       true,
+      remove_html_files:      true,
+      remove_tmp_pdf_files:   true,
+      overwrite_existing_pdf: false,
+      savedir:                "~",
+      savename:               'htmls_to_pdf.pdf',
+      debug:                  false
+    }
+    config = defaults.merge!(config)
 
     set_instance_vars(config)
     
+    set_dir(@savedir)
+
     exit_if_pdf_exists unless @overwrite_existing_pdf
   end
 
@@ -49,6 +48,7 @@ class HtmlsToPdf
   end
 
   def set_instance_vars(config)
+    @savedir = File.expand_path(config[:savedir])
     @savename = config[:savename]
     @overwrite_existing_pdf = config[:overwrite_existing_pdf]
     @urls = clean_urls(config[:urls])
@@ -57,9 +57,9 @@ class HtmlsToPdf
     @remove_css_files = config[:remove_css_files]
     @remove_html_files = config[:remove_html_files]
     @remove_tmp_pdf_files = config[:remove_tmp_pdf_files]
-    @remove_css_files = @remove_html_files = @remove_tmp_pdf_files = true if in_config[:remove_temp_files]
+    @remove_css_files = @remove_html_files = @remove_tmp_pdf_files = true if config[:remove_temp_files]
     @debug = config[:debug]
-    @options = config[:options]
+    @options = config[:options] || {}
   end
 
   def clean_temp_files
@@ -112,17 +112,15 @@ class HtmlsToPdf
   end
 
   def exit_if_pdf_exists
-    if File.exists?(@savename)
-      puts "File #{@savename} already exists. Please rename or delete and re-run this program."
+    if File.exists?(savename)
+      puts "File #{savename} already exists in #{savedir}. Please rename or delete and re-run this program."
       exit
     end
   end
 
   def set_dir(savedir)
-    @savedir = savedir
-    save_to = File.expand_path(savedir)
-    FileUtils.mkdir_p(save_to)
-    Dir.chdir(save_to)
+    FileUtils.mkdir_p(savedir)
+    Dir.chdir(savedir)
   end
 
   #def add_css(css_file)
@@ -151,33 +149,33 @@ class HtmlsToPdf
     end
   end
 
-  def save_url_to_savename(url, savename)
-    puts "Saving #{url} to #{savename}" if debug
+  def save_url_to_filename(url, filename)
+    puts "Saving #{url} to #{filename}" if debug
     file_content = get_http_https(url)
-    File.open(savename, 'w') { |f| f.write(file_content) }
+    File.open(filename, 'w') { |f| f.write(file_content) }
   end
 
   def get_html_files
     existing_files = Dir.entries(".")
     @htmlarray = []
     @urls.each_with_index do |url,idx|
-      savename = TMP_HTML_PREFIX + idx.to_s
-      unless existing_files.include?(savename)
-        puts "Saving #{url} to #{savename}" if debug
-        save_url_to_savename(url, savename)
-        #`wget #{url} -O #{savename}`
+      filename = TMP_HTML_PREFIX + idx.to_s
+      unless existing_files.include?(filename)
+        puts "Saving #{url} to #{filename}" if debug
+        save_url_to_filename(url, filename)
+        #`wget #{url} -O #{filename}`
       end
-      @htmlarray << savename
+      @htmlarray << filename
     end
   end
 
   def get_css_files
     existing_files = Dir.entries(".")
     @cssarray.each do |css_url|
-      savename = File.basename(css_url)
-      next if existing_files.include?(savename)
-      puts "Saving #{css_url} to #{savename}" if debug
-      save_url_to_savename(css_url, savename)
+      filename = File.basename(css_url)
+      next if existing_files.include?(filename)
+      puts "Saving #{css_url} to #{filename}" if debug
+      save_url_to_filename(css_url, filename)
       #`wget #{css_url}` unless existing_files.include?(File.basename(css_url))
     end
   end
@@ -199,10 +197,11 @@ class HtmlsToPdf
   end
 
   def join_pdfs
-    unless File.exists?(@savename) && !overwrite_existing_pdf
-      puts "Merging PDF files into single PDF" if debug
+    unless File.exists?(savename) && !overwrite_existing_pdf
+      puts "Merging PDF files into single PDF #{savename}" if debug
       pdfs_string = @pdfarray.join(" ")
-      `pdftk #{pdfs_string} output #{@savename}`
+      `pdftk #{pdfs_string} output #{savename}`
+      puts "Saved PDF file as #{savedir}/#{savename}"
     end
   end
 
