@@ -1,13 +1,15 @@
 require "spec_helper"
 require 'htmls_to_pdf'
 
-describe "initialization" do
+describe HtmlsToPdf do
+
+  let(:url_arr) { %w(http://www.fakeurl.com/adfsdafds.html https://fakesshurl.com/blog/posts/143.htm) }
+
+  subject { HtmlsToPdf.new(in_config) }
 
   context "without argument" do
 
-    let(:in_config) {  }
-
-    subject { HtmlsToPdf.new }
+    let(:in_config) { {} }
 
     it { should be_true }
     its(:overwrite_existing_pdf) { should be_false }
@@ -19,6 +21,7 @@ describe "initialization" do
     its(:urls) { should be_empty }
     its(:savedir) { should == File.expand_path("~") }
     its(:savename) { should == 'htmls_to_pdf.pdf' }
+    its(:debug) { should be_false }
     its(:options) { should be_kind_of Hash }
     its(:options) { should be_empty }
 
@@ -26,15 +29,12 @@ describe "initialization" do
 
   context "with basic config" do
 
-    let(:url_arr) { %w(http://www.fakeurl.com/adfsdafds.html https://fakesshurl.com/blog/posts/143.htm) }
 
     let(:in_config) { {savedir: '~/my/savedir',
                        savename: 'Name_to_save_file_as.pdf',
                        urls: url_arr }
                     }
 
-    subject { HtmlsToPdf.new(in_config) }
-    
     it { should be_true }
     its(:overwrite_existing_pdf) { should be_false }
     its(:remove_temp_files) { should be_false }
@@ -58,14 +58,49 @@ describe "initialization" do
       stub_request(:get, "https://fakesshurl.com/blog/posts/143.htm").
         with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => "", :headers => {})
-       subject.create_pdf
+      subject.create_pdf
     end
 
   end
 
-  context "with more complicated config" do
+  context "with debug" do
+  
+    let(:in_config) { {savedir: '~/my/savedir',
+                       savename: 'Name_to_save_file_as.pdf',
+                       urls: url_arr,
+                       debug: true }
+                    }
 
-    let(:url_arr) { %w(http://www.fakeurl.com/adfsdafds.html https://fakesshurl.com/blog/posts/143.htm) }
+    its(:debug) { should be_true }
+ 
+    it "should output the correct debugging information" do
+      subject.should_receive(:clean_temp_files).twice.and_return('Temp files cleaned')
+      # let subject.get_temp_files play out
+      STDOUT.should_receive(:write).at_least(:once).with("Downloading #{url_arr[0]}") 
+      STDOUT.should_receive(:write).at_least(:once).with("Saving #{url_arr[0]} to tmp_html_file_0")
+      STDOUT.should_receive(:write).at_least(:once).with("\n")  # I have no idea why this is necessary, but test fails without it
+      STDOUT.should_receive(:write).at_least(:once).with("Downloading #{url_arr[1]}")
+      STDOUT.should_receive(:write).at_least(:once).with("Saving #{url_arr[1]} to tmp_html_file_1")
+      subject.should_receive(:generate_pdfs).once.and_return('PDF files generated')
+      subject.should_receive(:join_pdfs).once.and_return('PDF files joined')
+      stub_request(:get, "http://www.fakeurl.com/adfsdafds.html").
+        with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => "", :headers => {})
+      stub_request(:get, "https://fakesshurl.com/blog/posts/143.htm").
+        with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => "", :headers => {})
+      subject.create_pdf
+    end
+
+  end
+
+  context "if savename already exists" do
+  end
+
+  context "if savedir does not already exist" do
+  end
+
+  context "with more complicated config" do
 
     let(:css_arr) { %w(http://fakeurl.com/assets/cssfile.css https://www.fakesshurl.com/public/css/CSS-file.css) }
 
@@ -77,8 +112,6 @@ describe "initialization" do
                        remove_html_files: false,
                        overwrite_existing_pdf: true }
                     }
-
-    subject { HtmlsToPdf.new(in_config) }
 
     it { should be_true }
     its(:overwrite_existing_pdf) { should be_true }
