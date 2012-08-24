@@ -159,6 +159,11 @@ class HtmlsToPdf
     File.open(filename, 'w') { |f| f.write(file_content) }
   end
 
+  def save_string_to_filename(string, filename)
+    puts "Saving to #{filename}" if debug
+    File.open(filename, 'w') { |f| f.write(string) }
+  end
+
   def get_html_files
     existing_files = Dir.entries(".")
     @htmlarray = []
@@ -173,15 +178,37 @@ class HtmlsToPdf
     end
   end
 
-  def get_css_files
-    existing_files = Dir.entries(".")
-    @cssarray.each do |css_url|
-      filename = File.basename(css_url)
-      next if existing_files.include?(filename)
-      puts "Saving #{css_url} to #{filename}" if debug
-      save_url_to_filename(css_url, filename)
-      #`wget #{css_url}` unless existing_files.include?(File.basename(css_url))
+  # accepts css files as URLs or as text strings
+  def process_css_input(css_input)
+    begin
+      URI::regexp.match(css_input)
+      process_css_url(css_input)
+    rescue URI::InvalidURIError
+      process_css_string(css_input)
     end
+  end
+
+  def process_css_url(css_url)
+    filename = File.basename(css_url)
+    existing_files = Dir.entries(".")
+    return filename if existing_files.include?(filename)
+    puts "Saving #{css_url} to #{filename}" if debug
+    save_url_to_filename(css_url, filename)
+    return filename
+  end
+
+  def process_css_string(css_string)
+    #filename = rand(36**7).to_s(36) + '.css'
+    filename = Digest::SHA1.hexdigest(css_string) + '.css'
+    existing_files = Dir.entries(".")
+    return filename if existing_files.include?(filename)
+    puts "Saving #{css_string} to #{filename}" if debug
+    save_string_to_filename(css_string, filename)
+    return filename
+  end
+
+  def get_css_files
+    @cssarray.map! { |css_input| process_css_input(css_input) }
   end
 
   def generate_pdfs

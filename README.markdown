@@ -14,7 +14,7 @@ Viewing docs offline also reduces browser "tab-itis" and helps prevent browser c
 
 I have run this only on Linux. It likely works on OS X. It may not work on Windows.
 
-HtmlsToPdf uses the PDFKit gem, which itself uses the [wkhtmltopdf](http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf-0.9.9-doc.html) program, which uses qtwebkit.
+HtmlsToPdf uses [the PDFKit gem](https://github.com/pdfkit/PDFKit/), which itself uses [the wkhtmltopdf program](http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf-0.9.9-doc.html), which uses qtwebkit.
 
 Dependence chain summary: HtmlsToPdf -> PDFKit -> wkhtmltopdf -> qtwebkit -> webkit
 
@@ -40,23 +40,25 @@ For information on PDFKit:
 
 ## BASIC USAGE
 
-To use HtmlsToPdf, you create a new HtmlsToPdf object and pass in all your configuration options. You then call create_pdf on the new object:
+Create a new HtmlsToPdf object, passing in all your configuration options (or set them by calling setters). Then call create_pdf on the new object:
 
     require 'rubygems'
     require 'htmls_to_pdf'
 
     config = {}
-    config[:urls] = ['http://.../url1.htm', 'https://.../url2.html']
-    config[:savedir] = '~/my/savedir'
+    config[:urls]     = ['http://.../url1.htm', 'https://.../url2.html']
+    config[:savedir]  = '~/my/savedir'
     config[:savename] = 'Name_to_save_file_as.pdf'
+    config[:css]      = ['http://www.example.com/css_file.css',
+                         'h1 {color: red; margin: 10px 5px} p {color: blue; border: 1px solid green; font-size: 80%;}']
 
     HtmlsToPdf.new(config).create_pdf
 
-    (Alternatively, you can set values on an htmls_to_pdf object, e.g.: HtmlsToPdf.new({}).savedir = '~/my/savedir') 
+    (Alternatively, you can set values on an htmls_to_pdf object, e.g.: h2p = HtmlsToPdf.new({}); h2p.savedir = '~/my/savedir') 
 
 ## OPTIONS
 
-`config[:css]` takes an array of CSS files to apply during PDF rendering. (You can also pass a single CSS file as a string.)
+`config[:css]` takes an array of CSS file URLs and/or valid CSS strings (you can mix URLs and CSS strings within an array) to apply during PDF rendering. (If you have just one CSS URL/string, you can pass it without an array.)
 
 `config[:debug]` (default: false) determines whether the program outputs verbose information while processing create_pdf()
 
