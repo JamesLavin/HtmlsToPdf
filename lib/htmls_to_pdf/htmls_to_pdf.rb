@@ -115,7 +115,8 @@ class HtmlsToPdf
 
   def exit_if_pdf_exists
     if File.exists?(savename)
-      puts "File #{savename} already exists in #{savedir}. Please rename or delete and re-run this program."
+      message = "File #{savename} already exists in #{savedir}. Please rename or delete and re-run this program."
+      puts message
       exit
     end
   end
@@ -153,8 +154,8 @@ class HtmlsToPdf
   end
 
   def save_url_to_filename(url, filename)
-    puts "Saving #{url} to #{filename}" if debug
     file_content = get_http_https(url)
+    puts "Saving #{url} to #{filename}" if debug
     File.open(filename, 'w') { |f| f.write(file_content) }
   end
 

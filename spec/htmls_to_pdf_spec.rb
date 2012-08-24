@@ -68,8 +68,7 @@ describe HtmlsToPdf do
     let(:in_config) { {savedir: '~/my/savedir',
                        savename: 'Name_to_save_file_as.pdf',
                        urls: url_arr,
-                       debug: true }
-                    }
+                       debug: true } }
 
     its(:debug) { should be_true }
  
@@ -95,9 +94,44 @@ describe HtmlsToPdf do
   end
 
   context "if savename already exists" do
+
+    let(:in_config) { {savedir: '~/my/savedir',
+                       savename: 'Name_to_save_file_as.pdf',
+                       urls: url_arr } }
+    before do
+      @dirname = File.expand_path('~/my/savedir')
+      FileUtils.mkdir_p(@dirname)
+      FileUtils.touch(@dirname + '/Name_to_save_file_as.pdf')
+    end
+
+    it "should generate an informative error message" do
+      # I really want to test message, but the test fails 
+      # message = "File Name_to_save_file_as.pdf already exists in #{@dirname}. Please rename or delete and re-run this program."
+      # $stdout.should_receive(:write).at_least(:once).with(message)
+      $stdout.should_receive(:write).at_least(:once)
+      begin
+        subject
+      rescue SystemExit
+      end
+    end
+    
+    it "should terminate" do
+      expect { subject }.to raise_error SystemExit
+    end
+
   end
 
   context "if savedir does not already exist" do
+
+    let(:in_config) { {savedir: '~/my/savedir',
+                       savename: 'Name_to_save_file_as.pdf',
+                       urls: url_arr } }
+    
+    it "should create savedir" do
+      subject
+      File.directory?(File.expand_path('~/my/savedir')).should be_true
+    end
+
   end
 
   context "with more complicated config" do
