@@ -8,7 +8,7 @@ HtmlsToPdf enables you to package one or more (ordered) HTML pages as a PDF.
 
 I often see multi-page websites with content I would rather have in a single PDF file for searching and offline viewing. Examples include: *The Ruby on Rails Guides* and *RSpec documentation*.
 
-Viewing docs offline also reduces browser "tab-itis" and helps prevent browser crashes. It also reduces the load on servers.
+Viewing docs offline also reduces browser "tab-itis," browser crashes, and unnecessary re-downloading of server content.
 
 ## REQUIREMENTS
 
@@ -76,16 +76,17 @@ Create a new HtmlsToPdf object, passing in all your configuration options (or se
 
 ## EXAMPLES
 
-You will find 19 example scripts in the /examples directory. Each creates a PDF from a website:
+You will find 20 example scripts in the /examples directory. Each creates a PDF from a website:
 
 - [The 12 Factor App](http://www.12factor.net) (Adam Wiggins)
+- [Advanced Rails - Five-Day](http://tutorials.jumpstartlab.com/paths/advanced_rails_five_day.html) (Jumpstart Labs)
 - [Backbone Fundamentals](https://github.com/addyosmani/backbone-fundamentals/blob/master/book.md) (Addy Osmani)
 - [Bash Guide](http://mywiki.wooledge.org/BashGuide) (Greg Wooledge)
 - [Coffeescript Meet Backbone.js](http://adamjspooner.github.com/coffeescript-meet-backbonejs/) (Adam J. Spooner)
 - [Coffeescript Cookbook](http://coffeescriptcookbook.com) ([Various authors](http://coffeescriptcookbook.com/authors))
 - [Coffeescript official documentation](http://coffeescript.org/)
 - [Exploring Coffeescript](http://elegantcode.com/2011/08/09/exploring-coffeescript-part-6-show-me-the-goodies/) (ElegantCode.com)
-- [Advanced Rails - Five-Day](http://tutorials.jumpstartlab.com/paths/advanced_rails_five_day.html) (Jumpstart Labs)
+- [Jasmine Wiki](https://github.com/pivotal/jasmine/wiki/) (Pivotal Labs)
 - [The Little Book on Coffeescript](http://arcturo.github.com/library/coffeescript/) (Alex MacCaw)
 - [Natural Language Processing for the Working Programmer](nlpwp.org/book/) (Daniël de Kok)
 - [Learn Python the Hard Way](http://learnpythonthehardway.org) (Zed A. Shaw)
@@ -100,7 +101,7 @@ You will find 19 example scripts in the /examples directory. Each creates a PDF 
 
 After you install HtmlsToPdf and its dependencies, you can write an ordinary Ruby script to save multiple ordered HTML pages as a single PDF.
 
-### EXAMPLE 1: Single HTML page without CSS
+### EXAMPLE 1: Single HTML page without CSS, with debugging
 
 Annotated version of /examples/get\_rails\_3\_1\_release\_notes.rb:
 
@@ -114,6 +115,9 @@ Annotated version of /examples/get\_rails\_3\_1\_release\_notes.rb:
     # create an empty hash to hold your configuration options
     config = {}
     config[:urls] = ['http://guides.rubyonrails.org/3_1_release_notes.html']
+
+    # enable verbose messages during PDF creation process
+    config[:debug] = true
 
     # set a :savedir key with a string value indicating the directory to create
     # your PDF file in. If the directory does not exist, it will be created
