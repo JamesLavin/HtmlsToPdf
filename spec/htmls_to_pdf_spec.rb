@@ -71,8 +71,7 @@ describe HtmlsToPdf do
       it "should change the savename when requested" do
         subject.savename.should == 'Name_to_save_file_as.pdf'
         newsavename = 'This_is_the-new-savename.pdf'
-        subject.savename = newsavename
-        subject.savename.should == newsavename
+        expect { subject.savename = newsavename }.to change { subject.savename }.to(newsavename)
       end
 
     end
