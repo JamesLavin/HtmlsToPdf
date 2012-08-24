@@ -32,8 +32,7 @@ describe HtmlsToPdf do
 
     let(:in_config) { {savedir: '~/my/savedir',
                        savename: 'Name_to_save_file_as.pdf',
-                       urls: url_arr }
-                    }
+                       urls: url_arr } }
 
     it { should be_true }
     its(:overwrite_existing_pdf) { should be_false }
@@ -59,6 +58,23 @@ describe HtmlsToPdf do
         with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
         to_return(:status => 200, :body => "", :headers => {})
       subject.create_pdf
+    end
+
+    describe "setting config values via setters" do
+
+      it "should change the debug setting when requested" do
+        subject.debug.should be_false
+        subject.debug = true
+        subject.debug.should be_true
+      end
+
+      it "should change the savename when requested" do
+        subject.savename.should == 'Name_to_save_file_as.pdf'
+        newsavename = 'This_is_the-new-savename.pdf'
+        subject.savename = newsavename
+        subject.savename.should == newsavename
+      end
+
     end
 
   end
