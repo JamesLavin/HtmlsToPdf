@@ -52,9 +52,13 @@ To use HtmlsToPdf, you create a new HtmlsToPdf object and pass in all your confi
 
     HtmlsToPdf.new(config).create_pdf
 
+    (Alternatively, you can set values on an htmls_to_pdf object, e.g.: HtmlsToPdf.new({}).savedir = '~/my/savedir') 
+
 ## OPTIONS
 
 `config[:css]` takes an array of CSS files to apply during PDF rendering. (You can also pass a single CSS file as a string.)
+
+`config[:debug]` (default: false) determines whether the program outputs verbose information while processing create_pdf()
 
 `config[:overwrite_existing_pdf]` (default: false) determines whether the program can overwrite a previously generated PDF file
 
