@@ -244,6 +244,20 @@ Annotated version of /examples/get\_ruby\_core\_docs.rb:
 
     HtmlsToPdf.new(config).create_pdf
 
+### EXAMPLE 5: Using CSS string to remove unwanted cruft
+
+Abbreviated version of /examples/get\_jasmine\_wiki.rb:
+
+    # When I tried to create this PDF, lots of unwanted formatting (headers, footers, etc.) appeared in the PDF.
+
+    # When this happens, I tell the HtmlsToPdf instance to NOT re-download the content each time:
+    config[:remove_css_files] = false
+    config[:remove_html_files] = false
+    config[:overwrite_existing_pdf] = true
+
+    # And then I start building up a CSS string I pass into config[:css] that suppresses the unwanted output:
+    config[:css] = 'div#header{display:none;} ul.tabs{display:none;} div#logo-popup{display:none;} div#footer{display:none;} div#markdown-help{display:none;} div.pagehead{display:none;} ul.wiki-actions{display:none;} div#keyboard_shortcuts_pane{display:none;} div.js-hidden-pane{display:none;} div#ajax-error-message{display:none;}'
+
 ## LEGAL DISCLAIMER
 
 Please use at your own risk. I guarantee nothing about this program.
