@@ -40,7 +40,7 @@ For information on PDFKit:
 
 ## BASIC USAGE
 
-Create a new HtmlsToPdf object, passing in all your configuration options (or set them by calling setters). Then call create_pdf on the new object:
+Create a new HtmlsToPdf object, passing in all your configuration options. Then tell the new object to .create_pdf:
 
     require 'rubygems'
     require 'htmls_to_pdf'
@@ -50,11 +50,11 @@ Create a new HtmlsToPdf object, passing in all your configuration options (or se
     config[:savedir]  = '~/my/savedir'
     config[:savename] = 'Name_to_save_file_as.pdf'
     config[:css]      = ['http://www.example.com/css_file.css',
-                         'h1 {color: red; margin: 10px 5px} p {color: blue; border: 1px solid green; font-size: 80%;}']
+                         'h1 {color: red; margin: 10px 5px;} p {color: blue; border: 1px solid green; font-size: 80%;}']
 
     HtmlsToPdf.new(config).create_pdf
 
-    (Alternatively, you can set values on an htmls_to_pdf object, e.g.: h2p = HtmlsToPdf.new({}); h2p.savedir = '~/my/savedir') 
+    (Alternatively, you can set configuration options by calling setters on an HtmlsToPdf instance, e.g.: h2p = HtmlsToPdf.new({}); h2p.savedir = '~/my/savedir') 
 
 ## OPTIONS
 
