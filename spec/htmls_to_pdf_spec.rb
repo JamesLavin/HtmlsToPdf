@@ -1,5 +1,5 @@
 require "spec_helper"
-require 'htmls_to_pdf'
+require_relative '../lib/htmls_to_pdf/htmls_to_pdf'
 
 describe HtmlsToPdf do
 
